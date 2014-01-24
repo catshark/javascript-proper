@@ -57,9 +57,7 @@ function displayQAndAs(){
         }
     }
 
-
-    var answerList = document.getElementsByClassName("item");
-    var questionChoices = allQuestions[index].choices;
+    //var questionChoices = allQuestions[index].choices;
 
     // having trouble removing/adding li items when the current number
     // of li items is not equal to the number of choices for a particular question
@@ -74,26 +72,13 @@ function displayQAndAs(){
      }*/
 
     $("#question").fadeOut( "slow", function() {
-        // display next question
-        var question = allQuestions[index].question;
-        q.childNodes[0].nodeValue = question;
 
-        // display list of possible answers to current question
-        var labelRadio, questionChoice;
-        for (var j = 0; j < questionChoices.length; j++) {
-            labelRadio = answerList[j];
-            questionChoice = questionChoices[j];
-            // check if text node exists
-            if (labelRadio.childNodes[0]) {
-                // if it exists, we change the value
-                labelRadio.childNodes[0].nodeValue = questionChoice;
-            } // otherwise, create one
-            else {
-                var text = questionChoice;
-                var textNode = document.createTextNode(text);
-                labelRadio.appendChild(textNode);
-            }
-        }
+        // display question and answers
+        // Get the html text node from the displayQuestion template and compile it
+        var disQTemplate = document.getElementById("displayQuestion-template").innerHTML;
+        var compiled = Handlebars.compile(disQTemplate);
+
+        q.innerHTML = compiled(allQuestions[index]);
 
         // if answer to current question has been previously selected, display it
         if (allQuestions[index].selectedAnswer !== -1) {

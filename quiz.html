@@ -14,28 +14,7 @@
     <form id="myForm" class="hidden" method="post">
         <ul>
             <li id="question">
-                <ul id="list">
-                    <li class="item">
-                        <label></label>
-                        <input type="radio" name="answer" value="">
-                    </li>
-                    <li class="item">
-                        <label></label>
-                        <input type="radio" name="answer" value="">
-                    </li>
-                    <li class="item">
-                        <label></label>
-                        <input type="radio" name="answer" value="">
-                    </li>
-                    <li class="item">
-                        <label></label>
-                        <input type="radio" name="answer" id="fourthAnswer" value="">
-                    </li>
-                    <li class="item">
-                        <label></label>
-                        <input type="radio" name="answer" id="fifthAnswer" value="">
-                    </li>
-                </ul>
+
             </li>
             <input type="button" value="Next" id="nextBtn" />
             <input type="button" value="Back" id="backBtn" />
@@ -48,6 +27,15 @@
 <script type="text/javascript" src="handlebars.js"></script>
 <script type="text/javascript" src="quiz.js"></script>
 <script id="displayQuestion-template" type="text/x-handlebars-template">
+    {{ this.question }}
+    <ul id="list">
+        {{#each this.choices}}
+        <li class="item">
+            {{ this }}
+            <label></label>
+            <input type="radio" name="answer" value="">
+        </li>
+        {{/each}}
 </script>
 </body>
 </html>
