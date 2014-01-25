@@ -37,6 +37,7 @@ function removeWarningMessage() {
 function displayQAndAs(){
     var q = document.getElementById("question");
 
+    // hide login if session is already active
     if (localStorage["index"]) {
         index = parseInt(localStorage["index"]);
         console.log("index is " + index);
@@ -57,27 +58,12 @@ function displayQAndAs(){
         }
     }
 
-    //var questionChoices = allQuestions[index].choices;
-
-    // having trouble removing/adding li items when the current number
-    // of li items is not equal to the number of choices for a particular question
-    /*var topList = document.getElementById("list");
-     var lastItem = document.getElementById("lastItem");
-
-     if (answerList.length > questionChoices.length) {
-     var numLabelsRemove = answerList - questionChoices;
-     for (var i = 0; i < numLabelsRemove; i++) {
-     topList.removeChild(lastItem);
-     }
-     }*/
-
     $("#question").fadeOut( "slow", function() {
 
         // display question and answers
         // Get the html text node from the displayQuestion template and compile it
         var disQTemplate = document.getElementById("displayQuestion-template").innerHTML;
         var compiled = Handlebars.compile(disQTemplate);
-
         q.innerHTML = compiled(allQuestions[index]);
 
         // if answer to current question has been previously selected, display it
@@ -130,10 +116,10 @@ function submitAnswer() {
             var form = document.getElementById("myForm");
             div.removeChild(form);
 
-            var textScore = document.createTextNode("Your score is " + totalScore);
-            var li = document.createElement("li");
-            li.appendChild(textScore);
-            div.appendChild(li);
+            // display total score
+            var scoreTemplate = document.getElementById("yourScore-template").innerHTML;
+            var template = Handlebars.compile(scoreTemplate);
+            div.insertAdjacentHTML('afterbegin', template(totalScore))
 
             //remove local storage
             localStorage.clear();
@@ -149,11 +135,11 @@ function submitAnswer() {
         }
     }
     else if (!ul.hasChildNodes() ) {
-        var li = document.createElement("li");
+        // if no answer selected, display error message
 
-        var textNode = document.createTextNode("Please select an answer!");
-        li.appendChild(textNode);
-        ul.appendChild(li);
+        var selectAnsTemplate = document.getElementById("answerNotSelected-template").innerHTML;
+        var notSelectedTemplate = Handlebars.compile(selectAnsTemplate);
+        ul.insertAdjacentHTML('afterBegin', notSelectedTemplate())
     }
 }
 
